@@ -1,4 +1,7 @@
 name: Deployment Pipeline
+env:
+  tf_actions_working_dir: infrastructure/main.tf
+
 on:
   workflow_dispatch:
     inputs:
@@ -10,7 +13,7 @@ on:
 
 jobs:
   infrastructure_deploy:
-    if: github.event.inputs.deploy_infrastructure == '${{ secrets.AZURE_SUBSCRIPTION }}'
+    if: github.event.inputs.deploy_infrastructure == '${{secrets.DEPLOY_INFRASTRUCTURE_CODE}}'
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -26,13 +29,20 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.tf_actions_working_dir }}
 
     steps:
       - uses: actions/checkout@v3
+      - uses: hashicorp/setup-terraform@v2
 
-      - name: Az Login
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Terraform fmt
+        run: terraform fmt -check
+        working-directory: another-cloud-project
+    
+      - name: Terraform Init
+        run: terraform init
+        working-directory: another-cloud-project  
 
      
