@@ -22,8 +22,6 @@ jobs:
 
       - name: Check for Secret availability
         id: secret-check
-        # perform secret check & put boolean result as an output
-        shell: bash
         run: |
           if [ '${{ secrets.DEPLOY_INFRASTRUCTURE_CODE }}' == '${{github.event.inputs.deploy_infrastructure}}' ]; then
             echo "match=true" >> $GITHUB_OUTPUT;
