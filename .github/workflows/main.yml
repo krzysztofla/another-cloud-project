@@ -13,7 +13,6 @@ on:
 
 jobs:
   infrastructure_deploy:
-    if: github.event.inputs.deploy_infrastructure == '${{secrets.DEPLOY_INFRASTRUCTURE_CODE}}'
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -21,10 +20,22 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Az Login
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Check for Secret availability
+        id: secret-check
+        # perform secret check & put boolean result as an output
+        shell: bash
+        run: |
+          if [ '${{ secrets.DEPLOY_INFRASTRUCTURE_CODE }}' == '${{github.event.inputs.deploy_infrastructure}}' ]; then
+            echo "match=true" >> $GITHUB_OUTPUT;
+          else
+            echo "match=false" >> $GITHUB_OUTPUT;
+          fi
+
+      - name: Check Inadequate Permissions
+        if: ${{ steps.secret-check.outputs.available != 'true' }}
+        run: |
+          echo "You do not have permission to deploy infrastructure"
+          exit 1
     
 
   build:
