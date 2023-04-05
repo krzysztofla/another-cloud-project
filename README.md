@@ -1,1 +1,2 @@
 # another-cloud-project
+[![Continuous Integration](https://github.com/krzysztofla/another-cloud-project/actions/workflows/ci-wokflow.yml/badge.svg)](https://github.com/krzysztofla/another-cloud-project/actions/workflows/ci-wokflow.yml)
