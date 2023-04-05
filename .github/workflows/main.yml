@@ -18,23 +18,7 @@ jobs:
       run:
         working-directory: another-cloud-project       
     steps:
-      # - uses: actions/checkout@v3
-
-      - name: Check for Secret availability
-        id: secret-check
-          # perform secret check & put boolean result as an output
-        run: |
-          if [ '${{ secrets.DEPLOY_INFRASTRUCTURE_CODE }}' == '${{github.event.inputs.deploy_infrastructure}}' ]; then
-            echo "match=true" >> $GITHUB_OUTPUT;
-          else
-            echo "match=false" >> $GITHUB_OUTPUT;
-          fi
-
-      - name: Check Inadequate Permissions
-        if: ${{ steps.secret-check.outputs.available != 'true' }}
-        run: |
-          echo "You do not have permission to deploy infrastructure"
-          exit 1
+      - uses: actions/checkout@v3
     
 
   build:
