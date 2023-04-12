@@ -21,6 +21,9 @@ jobs:
 
       - name: Check working directory
         run: pwd
+      
+      - name: Check files in working directory
+        run: ls -la
 
       - name: Terraform fmt
         run: terraform fmt -check
