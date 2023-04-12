@@ -1,6 +1,10 @@
 name: Deployment Infrastructure
 env:
   tf_actions_working_dir: infrastructure/
+  ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
 
 on:
   workflow_dispatch:
@@ -19,16 +23,15 @@ jobs:
       - uses: actions/checkout@v3
       - uses: hashicorp/setup-terraform@v2
 
-      - name: Check working directory
-        run: pwd
-      
-      - name: Check files in working directory
-        run: ls -la
-
-      - name: Terraform fmt
-        run: terraform fmt -check
-        working-directory: ${{ env.tf_actions_working_dir }}
-    
       - name: Terraform Init
         run: terraform init
         working-directory: ${{ env.tf_actions_working_dir }}
+      
+      - name: Terraform Plan
+        run: terraform plan -input=false
+        working-directory: ${{ env.tf_actions_working_dir }}
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -input=false
+        working-directory: ${{ env.tf_actions_working_dir }}
+
