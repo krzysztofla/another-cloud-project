@@ -1,6 +1,6 @@
 name: Deployment Infrastructure
 env:
-  tf_actions_working_dir: infrastructure/main.tf
+  tf_actions_working_dir: infrastructure/
 
 on:
   workflow_dispatch:
