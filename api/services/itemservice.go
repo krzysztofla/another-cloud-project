@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/demo-go-api/models"
+	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -15,6 +16,11 @@ type ItemService struct {
 }
 
 func NewItemService() (*ItemService, error) {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
 	host := os.Getenv("DATABASE_HOST")
 	port := os.Getenv("DATABASE_PORT")
 	user := os.Getenv("POSTGRES_USER")
