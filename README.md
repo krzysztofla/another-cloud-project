@@ -1,4 +1,5 @@
-# another-cloud-project
+# This is just a dummy after hours project to sharp my skill in kubernetes, docker and cloud technologies.
+
 [![Continuous Integration](https://github.com/krzysztofla/another-cloud-project/actions/workflows/ci-wokflow.yml/badge.svg)](https://github.com/krzysztofla/another-cloud-project/actions/workflows/ci-wokflow.yml)
 
 
